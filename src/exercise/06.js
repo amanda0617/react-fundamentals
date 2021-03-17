@@ -21,7 +21,26 @@ function UsernameForm({onSubmitUsername}) {
 
 //Criando uma ref, um recurso do React para acessar o conteúdo
 // de elementos de formulários
-const usernameEl = React.useRef(null)
+const usernameEl = React.useRef()
+
+//Criar uma variável de estado React
+// Uma variável de estado mantém uma informação mesmo que o conteúdo da página
+// seja atualizado
+// Para ler o conteúdo da variável de estado, podemos acessá-la diretamente.
+// No entanto, para alterar seu conteúdo, usamos uma função set.
+
+// error -> variável de estado
+// setError -> função de atualização da variável de estado
+// A função useState aceita um parâmetro que é o VALOR INICIAL da variável
+// de estado. Ou seja, nesse caso, error tem um valor inicial de string vazia.
+
+// useState() retorna um vetor que normalmente é recebido via desestruturação
+const [msg, setMsg] = React.useState('')
+const [username, setUsername] = React.useState('')
+
+/*const ret = React.useState('')
+let estado = ret[0]
+let setEstado = ret [1]*/
 
 function handleSubmit(event) {
     event.preventDefault() // Previne o recarregamento do formulário
@@ -32,13 +51,38 @@ function handleSubmit(event) {
    
 }
 
+//o evento é sempre passado para a função
+//toda vez que o input sofrer uma alteração, essa função será chamada
+function handleChange(event) {
+    // Capturando o valor do input
+    const val = event.target.value
+
+    // Armazena  na variável de estado o valor do input já convertido
+    // para minúsculas
+    setUsername(val.toLowerCase())
+
+    /*
+    // O input será válido se seu conteúdo for idêntico
+    // ao próprio conteúdo em minúsculas
+    // aaaA -> aaaa
+    const isValid = (val == val.toLowerCase())
+
+    // Atualizando o estado
+    
+    setMsg(isValid ? '' : 'O valor informado deve estar em minúsculas.')
+    */
+}
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Username:</label>
         {/* Associando o ref usernameE1 ao input */}
-        <input ref={usernameEl} id="username" type="text" />
+        <input ref={usernameEl} id="username" type="text" onChange={handleChange} value={username} />
       </div>
+      {/* O conteúdo da variável de estado pode ser lido sem necessidade de função auxiliar */}
+      {/* msg é o print da mensagem */}
+      <div style={{ color: 'red'}}>{msg}</div>
       <button type="submit">Submit</button>
     </form>
   )
